@@ -1,0 +1,82 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <span class="toolbar-student" aria-label="Student number">G00473384</span>
+    </ion-buttons>
+    <ion-title class="sr-only">Movie App</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/favourites" aria-label="Open favourites">
+        <ion-icon slot="icon-only" name="heart" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding home-content">
+  <h1 class="sr-only">Movie App Home</h1>
+
+  <div class="search-stack">
+    <ion-searchbar
+      class="home-searchbar"
+      placeholder="Search movies..."
+      [value]="searchQuery"
+      (ionInput)="onSearchQueryChange($event)"
+      [debounce]="300"
+      aria-label="Search for movies by title"
+    />
+    <ion-button expand="block" color="primary" shape="round" (click)="onSearch()">Search</ion-button>
+  </div>
+
+  @if (isLoading) {
+    <p class="section-eyebrow-list" aria-hidden="true">Loading</p>
+    <div class="skeleton-stack" role="status" aria-live="polite">
+      <span class="sr-only">Loading movies</span>
+      @for (s of [1, 2, 3, 4]; track s) {
+        <div class="app-card movie-card movie-card--skeleton">
+          <div class="sk-poster-wrap">
+            <ion-skeleton-text [animated]="true" class="sk-poster-inner" />
+          </div>
+          <div class="movie-card__body">
+            <ion-skeleton-text [animated]="true" class="sk-line sk-line--title" />
+            <ion-skeleton-text [animated]="true" class="sk-line" />
+            <ion-skeleton-text [animated]="true" class="sk-line sk-line--short" />
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (errorMessage) {
+    <div class="error-state" role="alert">
+      <ion-icon class="error-state__icon" name="cloud-offline-outline" aria-hidden="true" />
+      <h2 class="error-state__title">Couldn't load movies</h2>
+      <p class="error-state__sub">Check your connection and try again.</p>
+      <ion-button fill="outline" color="primary" shape="round" (click)="retryLoad()">Retry</ion-button>
+    </div>
+  } @else {
+    @if (listMode === 'trending') {
+      <p class="section-eyebrow-list">Today's Trending Movies</p>
+    } @else {
+      <p class="section-eyebrow-list">{{ lastSearchQuery }} Movies</p>
+    }
+
+    @if (movies.length === 0) {
+      <p class="empty-list" aria-live="polite">No movies found.</p>
+    } @else {
+      <div class="movie-grid" aria-label="Movie results">
+        @for (movie of movies; track movie.id) {
+          <article class="app-card movie-card" tabindex="0" role="link" [routerLink]="['/movie', movie.id]">
+            <div class="movie-card__poster-wrap aspect-2-3">
+              <ion-img
+                [src]="getPosterUrl(movie.poster_path) || 'assets/no-image.svg'"
+                [alt]="movie.title + ' poster'"
+              />
+            </div>
+            <div class="movie-card__body">
+              <h2 class="movie-card__title">{{ movie.title }}</h2>
+              <p class="movie-card__overview">{{ movie.overview || 'No description available.' }}</p>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  }
+</ion-content>
