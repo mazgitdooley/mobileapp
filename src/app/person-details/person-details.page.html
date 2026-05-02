@@ -1,0 +1,79 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Back" aria-label="Go back home" />
+    </ion-buttons>
+    <ion-title class="heading-display toolbar-person-title">{{ person?.name || 'Person' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/favourites" aria-label="Open favourites">
+        <ion-icon slot="icon-only" name="heart" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding page-person">
+  @if (isLoading) {
+    <p role="status" aria-live="polite">Loading person details...</p>
+  } @else if (errorMessage) {
+    <div class="error-state" role="alert">
+      <ion-icon class="error-state__icon" name="cloud-offline-outline" aria-hidden="true" />
+      <h2 class="error-state__title">Couldn't load person</h2>
+      <p class="error-state__sub">Check your connection and try again.</p>
+    </div>
+  } @else if (person) {
+    <div class="hero-row">
+      @if (person.profile_path) {
+        <div class="avatar-wrap">
+          <ion-img
+            class="avatar-img"
+            [src]="getProfileUrl(person.profile_path)!"
+            [alt]="person.name + ' profile'"
+          />
+        </div>
+      } @else {
+        <div class="avatar-wrap avatar-wrap--placeholder" aria-hidden="true">
+          {{ initials(person.name) }}
+        </div>
+      }
+      <div class="hero-text">
+        <h1 class="hero-name heading-display">{{ person.name }}</h1>
+        @if (bornLine) {
+          <p class="hero-meta">{{ bornLine }}</p>
+        }
+        @if (diedLine) {
+          <p class="hero-died">{{ diedLine }}</p>
+        }
+      </div>
+    </div>
+
+    @if (person.also_known_as.length > 0) {
+      <span class="label-eyebrow">Also known as</span>
+      <div class="chip-scroll">
+        @for (aka of person.also_known_as; track aka) {
+          <ion-chip class="aka-chip">{{ aka }}</ion-chip>
+        }
+      </div>
+    }
+
+    <span class="label-eyebrow">Biography</span>
+    <p class="bio" [class.bio--expanded]="isBioExpanded">{{ person.biography || 'No biography available.' }}</p>
+    @if (person.biography && person.biography.length > 0) {
+      <ion-button fill="clear" size="small" class="read-toggle" (click)="toggleBio()">
+        {{ isBioExpanded ? 'Read less' : 'Read more' }}
+      </ion-button>
+    }
+
+    <span class="label-eyebrow">Also appears in</span>
+    <div class="film-scroll">
+      @for (m of otherMovies; track m.id) {
+        <a class="film-poster" [routerLink]="['/movie', m.id]">
+          <div class="film-poster__img aspect-2-3-sm">
+            <ion-img [src]="getProfileUrl(m.poster_path) || 'assets/no-image.svg'" [alt]="m.title" />
+          </div>
+          <span class="film-poster__title">{{ m.title }}</span>
+        </a>
+      }
+    </div>
+  }
+</ion-content>

@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Back" aria-label="Go back home" />
+    </ion-buttons>
+    <ion-title class="heading-display toolbar-movie-title">{{ movie?.title || 'Movie' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/favourites" aria-label="Open favourites">
+        <ion-icon slot="icon-only" name="heart" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding page-movie">
+  @if (isLoading) {
+    <p role="status" aria-live="polite">Loading movie details...</p>
+  } @else if (errorMessage) {
+    <div class="error-state" role="alert">
+      <ion-icon class="error-state__icon" name="cloud-offline-outline" aria-hidden="true" />
+      <h2 class="error-state__title">Couldn't load movie</h2>
+      <p class="error-state__sub">Check your connection and try again.</p>
+      <ion-button fill="outline" color="primary" shape="round" (click)="retryLoad()">Retry</ion-button>
+    </div>
+  } @else if (movie) {
+    <span class="label-eyebrow">Synopsis</span>
+    <p class="synopsis">{{ movie.overview || 'No synopsis available.' }}</p>
+
+    <ion-button
+      expand="block"
+      shape="round"
+      [color]="isFavourite ? 'danger' : 'primary'"
+      (click)="onToggleFavourite()"
+      [attr.aria-pressed]="isFavourite"
+    >
+      <span class="fav-label" [class.fav-label--pulse]="favPulse">
+        {{ isFavourite ? '♥  Remove from Favourites' : '♡  Add to Favourites' }}
+      </span>
+    </ion-button>
+
+    <span class="label-eyebrow label-eyebrow--section">Cast</span>
+    <div class="person-grid" aria-label="Cast members">
+      @for (person of cast; track $index) {
+        <a class="person-tile app-card" [routerLink]="['/person', person.id]">
+          @if (person.profile_path) {
+            <div class="person-tile__photo aspect-1-1">
+              <ion-img [src]="getProfileUrl(person.profile_path)!" [alt]="person.name" />
+            </div>
+          } @else {
+            <div class="person-tile__photo aspect-1-1 person-tile__placeholder" aria-hidden="true">
+              {{ initials(person.name) }}
+            </div>
+          }
+          <div class="person-tile__meta">
+            <div class="person-tile__name">{{ person.name }}</div>
+            <div class="person-tile__role">{{ person.character || '—' }}</div>
+          </div>
+        </a>
+      }
+    </div>
+
+    <span class="label-eyebrow label-eyebrow--section">Crew</span>
+    <div class="person-grid" aria-label="Crew members">
+      @for (person of crew; track $index) {
+        <a class="person-tile app-card" [routerLink]="['/person', person.id]">
+          @if (person.profile_path) {
+            <div class="person-tile__photo aspect-1-1">
+              <ion-img [src]="getProfileUrl(person.profile_path)!" [alt]="person.name" />
+            </div>
+          } @else {
+            <div class="person-tile__photo aspect-1-1 person-tile__placeholder" aria-hidden="true">
+              {{ initials(person.name) }}
+            </div>
+          }
+          <div class="person-tile__meta">
+            <div class="person-tile__name">{{ person.name }}</div>
+            <div class="person-tile__role person-tile__role--plain">{{ person.job || '—' }}</div>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</ion-content>

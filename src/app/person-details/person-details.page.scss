@@ -1,0 +1,152 @@
+:host {
+  display: block;
+}
+
+.toolbar-person-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+}
+
+.hero-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 16px;
+}
+
+.avatar-wrap {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--ion-color-primary);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-wrap--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #12121a;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+}
+
+.hero-text {
+  flex: 1;
+  padding-left: 16px;
+  min-width: 0;
+}
+
+.hero-name {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.hero-meta {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.45;
+}
+
+.hero-died {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.chip-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 4px 0 12px;
+  margin-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.aka-chip {
+  --background: #1a1a22;
+  --color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+  margin-inline-end: 8px;
+  vertical-align: middle;
+}
+
+.bio {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bio--expanded {
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+.read-toggle {
+  --color: var(--ion-color-primary);
+  margin: 4px 0 16px;
+  font-size: 14px;
+}
+
+.read-toggle::part(native) {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.film-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.film-poster {
+  flex: 0 0 auto;
+  width: 80px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.aspect-2-3-sm {
+  aspect-ratio: 2 / 3;
+  width: 80px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.aspect-2-3-sm ion-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.film-poster__title {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
