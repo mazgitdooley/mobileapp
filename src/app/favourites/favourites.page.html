@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home" aria-label="Go to home">
+        <ion-icon slot="icon-only" name="home-outline" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="heading-display fav-toolbar-title">Favourite Movies</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding fav-page">
+  @if (favourites.length === 0) {
+    <div class="empty-favourites" aria-live="polite">
+      <ion-icon class="empty-favourites__icon" name="heart-outline" aria-hidden="true" />
+      <h2 class="empty-favourites__title heading-display">Nothing saved yet</h2>
+      <p class="empty-favourites__sub">Tap ♡ on any movie to save it here</p>
+    </div>
+  } @else {
+    <div class="fav-list" aria-label="Favourite movies">
+      @for (movie of favourites; track movie.id) {
+        <ion-item-sliding>
+          <ion-item lines="none" class="fav-slide-item">
+            <div class="fav-card app-card">
+              <div class="fav-card__poster aspect-2-3-fav">
+                <ion-img
+                  [src]="getPosterUrl(movie.poster_path) || 'assets/no-image.svg'"
+                  [alt]="movie.title + ' poster'"
+                />
+              </div>
+              <div class="fav-card__body">
+                <h3 class="fav-card__title">{{ movie.title }}</h3>
+                <p class="fav-card__overview">{{ movie.overview || 'No description available.' }}</p>
+                <ion-button size="small" shape="round" fill="outline" color="primary" [routerLink]="['/movie', movie.id]">
+                  Details
+                </ion-button>
+              </div>
+            </div>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="removeMovie(movie.id)" aria-label="Remove from favourites">
+              <ion-icon name="trash-outline" aria-hidden="true" />
+              <span>Remove</span>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      }
+    </div>
+  }
+</ion-content>
