@@ -1,17 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import {
-  IonBackButton,
-  IonButton,
-  IonButtons,
-  IonChip,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonImg,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { cloudOfflineOutline, heart } from 'ionicons/icons';
 import { firstValueFrom, forkJoin } from 'rxjs';
@@ -25,19 +14,8 @@ import { initialsFromName } from '../core/utils/initials';
   selector: 'app-person-details',
   templateUrl: './person-details.page.html',
   styleUrls: ['./person-details.page.scss'],
-  imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonButton,
-    IonBackButton,
-    IonIcon,
-    IonContent,
-    IonImg,
-    IonChip,
-    RouterLink,
-  ],
+  standalone: true,
+  imports: [IonicModule, RouterLink],
 })
 export class PersonDetailsPage implements OnInit {
   person: PersonDetails | null = null;

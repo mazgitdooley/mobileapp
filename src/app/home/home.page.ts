@@ -1,17 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonImg,
-  IonSearchbar,
-  IonSkeletonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { cloudOfflineOutline, heart } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
@@ -23,19 +12,8 @@ import { TmdbService } from '../core/services/tmdb.service';
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonIcon,
-    IonContent,
-    IonSearchbar,
-    IonButton,
-    IonSkeletonText,
-    IonImg,
-    RouterLink,
-  ],
+  standalone: true,
+  imports: [IonicModule, RouterLink],
 })
 export class HomePage implements OnInit {
   movies: MovieSummary[] = [];
@@ -54,8 +32,8 @@ export class HomePage implements OnInit {
     void this.loadTrendingMovies();
   }
 
-  onSearchQueryChange(event: CustomEvent): void {
-    this.searchQuery = (event.detail.value ?? '').trim();
+  onSearchQueryChange(event: Event): void {
+    this.searchQuery = ((event as CustomEvent).detail.value ?? '').trim();
   }
 
   async onSearch(): Promise<void> {

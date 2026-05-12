@@ -1,19 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonImg,
-  IonItem,
-  IonItemOption,
-  IonItemOptions,
-  IonItemSliding,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { heartOutline, homeOutline, trashOutline } from 'ionicons/icons';
 
@@ -25,21 +12,8 @@ import { TmdbService } from '../core/services/tmdb.service';
   selector: 'app-favourites',
   templateUrl: './favourites.page.html',
   styleUrls: ['./favourites.page.scss'],
-  imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonIcon,
-    IonContent,
-    IonItemSliding,
-    IonItem,
-    IonItemOptions,
-    IonItemOption,
-    IonButton,
-    IonImg,
-    RouterLink,
-  ],
+  standalone: true,
+  imports: [IonicModule, RouterLink],
 })
 export class FavouritesPage implements OnInit {
   favourites: MovieSummary[] = [];
